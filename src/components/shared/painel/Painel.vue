@@ -1,0 +1,70 @@
+<template>
+    <div class="painel">
+        <h2 class="painel-titulo" @dblclick="showSlot">{{ titulo }}</h2>
+        <transition name="painel-fade">
+            <div class="painel-conteudo" v-show="show">
+                <slot></slot>
+            </div>
+        </transition>
+        
+    </div>
+</template>
+
+<script>
+
+export default {
+    name: 'Painel',
+    props: ['titulo'],
+    data() {
+        return {
+           show:true
+        }
+    },
+    methods: {
+        showSlot() {
+            return this.show = !this.show;
+        }
+    }
+
+    
+}
+</script>
+
+<style scoped>
+
+.painel {
+    padding: 0 auto;
+    border: solid 2px grey;
+    display: inline-block;
+    margin: 5px;
+    box-shadow: 5px 5px 10px grey;
+    width: 200px;
+    height: 100%;
+    vertical-align: top;
+    text-align: center;
+  }
+
+  .painel .painel-titulo {
+    text-align: center;
+    border: solid 2px;
+    background: lightblue;
+    margin: 0 0 15px 0;
+    padding: 10px;
+    text-transform: uppercase;
+  }
+
+  * {
+      box-shadow: 5px 10px 5px black;
+  }
+
+  .painel-fade-enter, .painel-fade-leave-active {
+      opacity: 0;
+  }
+  .painel-fade-enter-active, .painel-fade-leave-active {
+      transition: opacity .3s ;
+  }
+
+  .painel-conteudo {
+      overflow: hidden;
+  }
+</style>
