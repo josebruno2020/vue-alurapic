@@ -1,8 +1,9 @@
 <template>
     <div>
         <h1 class="text-centralizado">
-            Hola!
+            Alura Pic
         </h1>
+        <h3 class="text-centralizado">Single Page Application</h3>
         <input type="search" v-model="filtro" name="" class="filtro" placeholder="Filtre pelo titulo" id="" autofocus>
         <div class="alert">{{msg}}</div>
         <ul class="lista">
@@ -88,11 +89,8 @@ export default {
     list-style: none;
     padding: 15px;
 }
-
-
-
-
 .filtro {
+    padding: 10px;
     display: block;
     width: 100%;
 }

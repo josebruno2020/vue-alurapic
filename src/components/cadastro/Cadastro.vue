@@ -1,6 +1,6 @@
 <template>
     <div>
-    <h1 class="centralizado">Cadastro</h1>
+    <h1 class="centralizado">Nova Foto</h1>
     <h2 class="centralizado"></h2>
 
     <form @submit.prevent="submit">
