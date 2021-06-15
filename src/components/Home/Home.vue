@@ -92,7 +92,7 @@ export default {
 .filtro {
     padding: 10px;
     display: block;
-    width: 100%;
+    width: 20%;
 }
 
 .alert {
