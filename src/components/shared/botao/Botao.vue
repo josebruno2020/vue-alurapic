@@ -15,7 +15,7 @@ export default {
             type: String
         },
         confirmacao: {
-            required:true,
+            required:false,
             type: Boolean
         },
         estilo: {

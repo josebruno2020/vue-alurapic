@@ -15,7 +15,7 @@ export default {
     name: 'App',
     data() {
         return {
-            routes
+            routes:routes.filter(route => route.menu)
         }
     },
     components: {

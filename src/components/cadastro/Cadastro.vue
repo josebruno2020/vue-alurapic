@@ -23,7 +23,7 @@
 
         <div class="centralizado">
             <meu-botao :confirmacao="false" rotulo="GRAVAR" tipo="submit"/>
-            <router-link to="/">
+            <router-link :to="{name: 'Home'}">
                 <meu-botao :confirmacao="false" rotulo="VOLTAR" tipo="button"/>
             </router-link>
         </div>
@@ -37,11 +37,14 @@
 import Botao from '../shared/botao/Botao.vue';
 import ImageResponsiveVue from '../shared/imagem-responsive/ImageResponsive.vue';
 import Foto from '../../models/foto/Foto';
+import FotoService from '../../models/foto/FotoService';
 
 export default {
     data() {
         return {
-            foto: new Foto()
+            foto: new Foto(),
+            service:new FotoService(this.$resource),
+            id:this.$route.params.id
         }
     },
 
@@ -50,9 +53,22 @@ export default {
         'imagem-responsiva': ImageResponsiveVue, 
         'meu-botao': Botao
     },
+    created() {
+        this.resource = this.$resource('v1/fotos');
+        if(this.id) {
+            this.service.busca(this.id)
+            .then(res => {
+                console.log(res);
+                this.foto = res.body
+            })
+            .catch(e => console.log(e));
+        }
+    },
     methods: {
         submit() {
-            this.$http.post('http://localhost:3000/v1/fotos', this.foto)
+
+            this.service
+            .cadastra(this.foto)
             .then((res) => {
                 console.log(res)
                 this.foto = new Foto();
@@ -60,8 +76,6 @@ export default {
             .catch(e => {
                 console.log(e);
             })
-
-            
         }
     }
 }
