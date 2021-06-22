@@ -69,7 +69,7 @@ export default {
             .lista()
             .then(res =>this.fotos = res.body)
             .catch(e => {
-                this.msg = 'Não foi possível carregar as fotos!';
+                this.msg = e.message;
                 console.log(e)
             })
     },
@@ -83,7 +83,7 @@ export default {
                 this.msg = 'Foto removida com sucesso!';
             })
             .catch(e => {
-                this.msg = 'Não foi possivel remover a foto.';
+                this.msg = e.message;
                 console.log(e);
             })
             

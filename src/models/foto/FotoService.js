@@ -7,11 +7,23 @@ export default class FotoService {
     lista() {
         return this._resource
             .query()
+            .catch(e => {
+                console.log(e)
+                throw new Error('Não foi possível carregar as fotos!');
+                
+            })
     }
 
     cadastra(foto) {
-        return this._resource
-            .save(foto);
+
+        if(foto._id) {
+            return this._resource.update({id:foto._id}, foto);
+        } else {
+            return this._resource
+                .save(foto);
+        }
+
+        
     }
 
     busca(id) {
@@ -20,7 +32,12 @@ export default class FotoService {
 
 
     apaga(id) {
-        return this._resource.delete({id});
+        return this._resource.delete({id})
+        .catch(e => {
+            console.log(e)
+            throw new Error('Não foi possível remover a foto!');
+            
+        });
     }
 
 }

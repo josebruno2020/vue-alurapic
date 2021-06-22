@@ -1,18 +1,21 @@
 <template>
     <div>
     <h1 class="centralizado">Nova Foto</h1>
-    <h2 class="centralizado"></h2>
+    <h2 class="centralizado">{{ foto.titulo }}</h2>
 
     <form @submit.prevent="submit">
+        <h4 class="centralizado">{{ status }}</h4>
         <div class="controle">
             <label for="titulo">Título:</label>
-            <input id="titulo" autocomplete="off" v-model.lazy="foto.titulo" autofocus>
+            <input v-validate="'required|min:3'" data-vv-as="título" name="titulo" id="titulo" autocomplete="off" v-model="foto.titulo" autofocus>
+            <span class="error">{{errors.first('titulo')}}</span>
         </div>
         
         <div class="controle">
             <label for="url">URL</label>
             <!-- Lazy = onblur mais ou menos  -->
-            <input id="url" autocomplete="off" v-model.lazy="foto.url">
+            <input v-validate="'required'" name="url" id="url" autocomplete="off" v-model="foto.url">
+            <span class="error" v-show="errors.has('url')">{{errors.first('url')}}</span>
             <imagem-responsiva v-show="foto.url" :url="foto.url" :titulo="foto.titulo"/>
         </div>
 
@@ -22,7 +25,7 @@
         </div>
 
         <div class="centralizado">
-            <meu-botao :confirmacao="false" rotulo="GRAVAR" tipo="submit"/>
+            <meu-botao :confirmacao="false" :class="{disable:errors}" rotulo="GRAVAR" tipo="submit"/>
             <router-link :to="{name: 'Home'}">
                 <meu-botao :confirmacao="false" rotulo="VOLTAR" tipo="button"/>
             </router-link>
@@ -49,7 +52,6 @@ export default {
     },
 
     components: {
-
         'imagem-responsiva': ImageResponsiveVue, 
         'meu-botao': Botao
     },
@@ -66,16 +68,29 @@ export default {
     },
     methods: {
         submit() {
+            this.$validator
+            .validateAll()
+            .then(success => {
+                if(success) {
+                    this.service
+                    .cadastra(this.foto)
+                    .then(() => {
+                        return this.$router.push({name: 'Home'});
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    })
+                }
+            })
+        }
+    },
+    computed: {
+        status() {
+            if(this.id) {
+                return 'Alterando';
+            }
 
-            this.service
-            .cadastra(this.foto)
-            .then((res) => {
-                console.log(res)
-                this.foto = new Foto();
-            })
-            .catch(e => {
-                console.log(e);
-            })
+            return 'Incluindo';
         }
     }
 }
@@ -104,5 +119,19 @@ export default {
 
   .centralizado {
     text-align: center;
+  }
+
+  .error {
+      color: red;
+      font-size: 15px;
+      padding: 5px;
+  }
+
+  .disable {
+      cursor: not-allowed;
+      opacity: .2;
+  }
+  .disable:hover {
+      opacity: .2;
   }
 </style>
