@@ -1,25 +1,23 @@
-import Home from './components/Home/Home.vue';
-import Cadastro from './components/cadastro/Cadastro.vue';
 export const routes = [
     {
         name:'Home',
         path:'',
-        component:Home,
+        component:() => import('./components/Home/Home.vue'),
         menu:true
     },
     {
         name:'Cadastro',
         path:'/cadastro',
-        component:Cadastro,
+        component:() => import('./components/cadastro/Cadastro.vue'),
         menu:true
     },
     {
         name:'Altera',
         path:'/cadastro/:id',
-        component:Cadastro
+        component:() => import('./components/cadastro/Cadastro.vue')
     },
     {
         path:'*',
-        component:Home
+        component:() => import('./components/notFound/NotFound.vue')
     }
 ];
